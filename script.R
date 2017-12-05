@@ -2,14 +2,29 @@ library(DMwR)
 library(dplyr)
 library(lubridate)
 
-DataToInvestigate <- read.csv("Dataset/day.csv", header = TRUE)
+bikeSharing <- read.csv("Dataset/day.csv", header = TRUE)
 
 # Verify if all entries on the dataset are from 2011 and 2012
-all_the_dates <- DataToInvestigate$dteday
+all_the_dates <- bikeSharing$dteday
 all_the_dates[year(all_the_dates) != 2011 && year(all_the_dates) != 2012]
 
 # Verify if the values of "season" are within bounds
-unique(DataToInvestigate$season)
+unique(bikeSharing$season)
+
+# Change the values of "yr" from 0/1 to 2011/2012
+change_year <- function(x) {
+  sapply(x, function(x) {
+    if (x == 0) {
+      2011
+    }
+    else{
+      2012
+    }
+  })
+}
+
+bikeSharing$yr <- change_year(bikeSharing$yr)
+bikeSharing$yr <- factor(bikeSharing$yr, levels = c(2011, 2012))
 
 # Change the column "season" from numbers to names
 change_season <- function(x) {
@@ -24,8 +39,8 @@ change_season <- function(x) {
   })
 }
 
-DataToInvestigate$season <- change_season(DataToInvestigate$season)
-DataToInvestigate$season <- factor(DataToInvestigate$season, levels = c("Spring", "Summer", "Fall", "Winter"))
+bikeSharing$season <- change_season(bikeSharing$season)
+bikeSharing$season <- factor(bikeSharing$season, levels = c("Spring", "Summer", "Fall", "Winter"))
 
 # Change the column "month" from numbers to names
 change_month <- function(x) {
@@ -48,10 +63,10 @@ change_month <- function(x) {
   })
 }
 
-DataToInvestigate$mnth <- change_month(DataToInvestigate$mnth)
-DataToInvestigate$mnth <-
+bikeSharing$mnth <- change_month(bikeSharing$mnth)
+bikeSharing$mnth <-
   factor(
-    DataToInvestigate$mnth,
+    bikeSharing$mnth,
     levels = c(
       "January",
       "February",
@@ -67,3 +82,14 @@ DataToInvestigate$mnth <-
       "December"
     )
   )
+
+
+# Create 4 new columns with "real" values of temp/atemp/hum/windspeed columns
+bikeSharing <- mutate(bikeSharing, real_temp = temp * 41)
+
+bikeSharing <- mutate(bikeSharing, feeling_temp = atemp * 41)
+
+bikeSharing <- mutate(bikeSharing, real_hum = hum * 100)
+
+bikeSharing <- mutate(bikeSharing, real_windspeed = windspeed * 67)
+
