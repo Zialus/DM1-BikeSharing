@@ -93,3 +93,11 @@ bikeSharing <- mutate(bikeSharing, real_hum = hum * 100)
 
 bikeSharing <- mutate(bikeSharing, real_windspeed = windspeed * 67)
 
+
+# Change "weekday" column from values 0-6 to Monday/Tuesday/.../Saturday/Sunday
+bikeSharing$weekday <- as.character(as.numeric(bikeSharing$weekday))
+bikeSharing$weekday <- 
+  factor(wday(bikeSharing$dteday, TRUE), 
+         levels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+         labels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"))
+
