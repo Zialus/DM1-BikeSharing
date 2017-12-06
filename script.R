@@ -93,20 +93,5 @@ bikeSharing <- mutate(bikeSharing, hummidity = bikeSharing$hum * 100)
 bikeSharing <- mutate(bikeSharing, real_windspeed = bikeSharing$windspeed * 67)
 
 
-# TODO: fix this thing!!!
 # Change "weekday" column from values 0-6 to Monday/Tuesday/.../Saturday/Sunday
-bikeSharing$weekday <- as.character(as.numeric(bikeSharing$weekday))
-bikeSharing$weekday <-
-  factor(
-    wday(bikeSharing$dteday, label = TRUE),
-    levels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
-    labels = c(
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday"
-    )
-  )
+bikeSharing$weekday <- wday(bikeSharing$dteday, label = TRUE, abbr = FALSE)
