@@ -9,6 +9,9 @@ bikeSharing <- read.csv("Dataset/day.csv", header = TRUE)
 all_the_dates <- bikeSharing$dteday
 all_the_dates[year(all_the_dates) != 2011 && year(all_the_dates) != 2012]
 
+# Verify if all entries on the dataset have correct sums for casual and registered
+subset(bikeSharing, casual + registered != cnt)
+
 # Change the values of "yr" from 0/1 to 2011/2012
 change_year <- function(x) {
   sapply(x, function(x) {
