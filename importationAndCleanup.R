@@ -44,21 +44,23 @@ change_season <- function(x) {
 bikeSharing$season <- change_season(bikeSharing$season)
 bikeSharing$season <- factor(bikeSharing$season, levels = c("Spring", "Summer", "Fall", "Winter"), ordered = TRUE)
 
-# Change the column "month" from numbers to names
+# Change the column "month" from 0-12 to January/.../December
 bikeSharing$mnth <- month(bikeSharing$mnth, label = TRUE, abbr = FALSE)
+
+# Change "weekday" column from values 0-6 to Monday/.../Sunday
+bikeSharing$weekday <- wday(bikeSharing$dteday, label = TRUE, abbr = FALSE)
 
 # Change the column "holiday" to Boolean
 bikeSharing$holiday <- as.logical(bikeSharing$holiday)
 
+# Change the column "holiday" to Boolean
+bikeSharing$workingday <- as.logical(bikeSharing$workingday)
+
 # Create 4 new columns with "real" values of temp/atemp/hum/windspeed columns
-bikeSharing <- mutate(bikeSharing, temperature = bikeSharing$temp * 41)
+bikeSharing <- mutate(bikeSharing, real_temp = bikeSharing$temp * 41)
 
-bikeSharing <- mutate(bikeSharing, feeling_temp = bikeSharing$atemp * 41)
+bikeSharing <- mutate(bikeSharing, real_atemp = bikeSharing$atemp * 41)
 
-bikeSharing <- mutate(bikeSharing, hummidity = bikeSharing$hum * 100)
+bikeSharing <- mutate(bikeSharing, real_hum = bikeSharing$hum * 100)
 
 bikeSharing <- mutate(bikeSharing, real_windspeed = bikeSharing$windspeed * 67)
-
-
-# Change "weekday" column from values 0-6 to Monday/Tuesday/.../Saturday/Sunday
-bikeSharing$weekday <- wday(bikeSharing$dteday, label = TRUE, abbr = FALSE)
