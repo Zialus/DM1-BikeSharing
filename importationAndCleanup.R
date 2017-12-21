@@ -42,46 +42,10 @@ bikeSharing$season <- change_season(bikeSharing$season)
 bikeSharing$season <- factor(bikeSharing$season, levels = c("Spring", "Summer", "Fall", "Winter"), ordered = TRUE)
 
 # Change the column "month" from numbers to names
-change_month <- function(x) {
-  sapply(x, function(x) {
-    switch(
-      as.character(x),
-      "1" = "January",
-      "2" = "February",
-      "3" = "March",
-      "4" = "April",
-      "5" = "May",
-      "6" = "June",
-      "7" = "July",
-      "8" = "August",
-      "9" = "September",
-      "10" = "October",
-      "11" = "November",
-      "12" = "December"
-    )
-  })
-}
+bikeSharing$mnth <- month(bikeSharing$mnth, label = TRUE, abbr = FALSE)
 
-bikeSharing$mnth <- change_month(bikeSharing$mnth)
-bikeSharing$mnth <-
-  factor(
-    bikeSharing$mnth,
-    levels = c(
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
-    ), ordered = TRUE
-  )
-
+# Change the column "holiday" to Boolean
+bikeSharing$holiday <- as.logical(bikeSharing$holiday)
 
 # Create 4 new columns with "real" values of temp/atemp/hum/windspeed columns
 bikeSharing <- mutate(bikeSharing, temperature = bikeSharing$temp * 41)
