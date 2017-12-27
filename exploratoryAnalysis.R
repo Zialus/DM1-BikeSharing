@@ -22,7 +22,7 @@ mean_temp <- bikeSharing %>% group_by(mnth) %>%
   summarise(mean_temperature = mean(real_temp))
 
 
-gp1 <- gr_by_month %>% ggplot() + geom_histogram(aes(x = mnth, y = total_cnt * 35 / 220000, fill = yr), stat = "identity", position = "dodge") +
+gp1 <- gr_by_month %>% ggplot() + geom_bar(aes(x = mnth, y = total_cnt * 35 / 220000, fill = yr), stat = "identity", position = "dodge") +
   geom_line(data = mean_temp, aes(x = mnth, y = mean_temperature, group = 1), show.legend = FALSE) +
   scale_y_continuous(name = expression("Temperatura ("~degree~"C)"),
                      sec.axis = sec_axis(~ . * 220000 / 35, name = "Nº de alugueres"),
