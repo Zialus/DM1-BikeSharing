@@ -1,0 +1,56 @@
+---
+title: "Relatório Data Mining 1 - Análise dos alugeres de bicicletas da Capital Bikeshare"
+author: "Miguel Barbosa, Raul Ferreira, Tiago Martins"
+date: "31 de Dezembro de 2017"
+output:
+  html_document:
+    df_print: paged
+---
+
+
+```{r setup, include=FALSE}
+source("importationAndCleanup.R")
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introdução do problema
+
+O data set disponibilizado para a realização deste trabalho contêm informação sobre alugeres de bicicletas da Capital Bikeshare, de Washington D.C.. O data set original tem um total de 731 observações e 16 variáveis. O conjunto dos dados está relacionado com um registo histórico dos anos 2011 e 2012. Para cada observação, ou seja, para cada dia de cada um dos dois anos, também existem as seguintes características: o index da observação, a data, a estação do ano, o ano, o mês do ano (1-12), a hora do dia (0-23), se o dia é um feriado ou não, qual o dia da semana, se é fim-de-semana ou não, (FALTA weathersit), temperatura normalizada, temperatura sentida normalizada, humidade normalizada, velocidade do vento normalizada, número de alugeres por utilizadores casuais, número de alugeres por utilizadores registados, e por fim, o total de bicicletas alugadas.
+
+
+## Importação/Pré-processamentos dos dados
+
+
+
+## Análise exploratória dos dados
+
+```{r setup2, include=FALSE}
+library(ggplot2)
+library(dplyr)
+library(grid)
+library(tidyr)
+library(scales)
+```
+
+```{r just_testing}
+gr_by_month <- select(bikeSharing, yr, mnth, cnt) %>% group_by(yr, mnth) %>%
+  summarise(total_cnt = sum(cnt))
+
+mean_temp <- bikeSharing %>% group_by(mnth) %>% 
+  summarise(mean_temperature = mean(real_temp))
+
+
+gp1 <- gr_by_month %>% ggplot() + geom_bar(aes(x = mnth, y = total_cnt * 35 / 220000, fill = yr), stat = "identity", position = "dodge") +
+  geom_line(data = mean_temp, aes(x = mnth, y = mean_temperature, group = 1), show.legend = FALSE) +
+  scale_y_continuous(name = expression("Temperatura ("~degree~"C)"),
+                     sec.axis = sec_axis(~ . * 220000 / 35, name = "Nº de alugueres"),
+                     limits = c(0, 35)
+                     ) +
+  labs(x = "Mês")
+
+gp1
+```
+
+## Definição de Modelo de previsão
+
+
