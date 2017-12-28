@@ -33,10 +33,10 @@ change_season <- function(x) {
   sapply(x, function(x) {
     switch(
       as.character(x),
-      "1" = "Spring",
-      "2" = "Summer",
-      "3" = "Fall",
-      "4" = "Winter"
+      "1" = "Winter",
+      "2" = "Spring",
+      "3" = "Summer",
+      "4" = "Fall"
     )
   })
 }
