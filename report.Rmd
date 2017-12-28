@@ -29,15 +29,55 @@ bikeSharing <- read.csv("Dataset/day.csv", header = TRUE)
 ```
 
 
-De seguida, foram efetuados alguns testes para verificar se os valores de certas variáveis estavam corretos. 
+De seguida, foram efetuados alguns testes para verificar se os valores de certas variáveis estavam corretos. Também foram criadas várias colunas novas e os valores de certas variáveis foram modificados, com o objetivo de tornar a análise dos dados mais acessí 
 
 ```{r test1, eval=FALSE}
 subset(bikeSharing, bikeSharing$casual + bikeSharing$registered != bikeSharing$cnt)
 ```
 
-- Com esse código verificou-se que para todas as observações, o valor da variável **cnt** corresponde de facto, à soma das variáveis **casual** e **registered**.
+Com esse código verificou-se que para todas as observações, o valor da variável **cnt** corresponde de facto, à soma das variáveis **casual** e **registered**.
 
+Na descrição dos dados do *data set*, era mencionado que na coluna **season**, o valor 1 representava a estação *spring*, o 2 a estação *summer*, o 3 representava a estação *fall*, e finalmente, o valor 4 o *winter*. No entanto averiguou-se que esses valores estavam errados. O valor 1 representa, na realidade, a estação *winter*, o 2 a estação *string*, *etc*. Procedeu-se assim, à correção da coluna **season**.
 
+```{r test2, eval=FALSE}
+change_season <- function(x) {
+  sapply(x, function(x) {
+    switch(as.character(x), "1" = "Winter", "2" = "Spring", "3" = "Summer", "4" = "Fall")
+  })
+}
+
+bikeSharing$season <- change_season(bikeSharing$season)
+bikeSharing$season <- factor(bikeSharing$season, 
+                             levels = c("Spring", "Summer", "Fall", "Winter"), ordered = TRUE)
+```
+
+Foi realizada uma modificação na coluna **yr**, passando os valores 0 e 1 para 2011 e 2012, respetivamente.
+
+```{r test3, eval=FALSE}
+change_year <- function(x) {
+  sapply(x, function(x) {
+    switch(as.character(x), "0" = "2011", "1" = "2012")
+  })
+}
+
+bikeSharing$yr <- change_year(bikeSharing$yr)
+bikeSharing$yr <- factor(bikeSharing$yr, levels = c(2011, 2012), ordered = TRUE)
+```
+
+Da mesma forma, a coluna **weathersit** também foi modificada. Os valores 1, 2, 3 e 4 foram 
+
+```{r test3, eval=FALSE}
+change_workd <- function(x) {
+  sapply(x, function(x) {
+    switch(as.character(x), "1" = "Clear", "2" = "Mist", "3" = "Light rain/snow", "4" = "Heavy rain/snow")
+  })
+}
+
+bikeSharing$weathersit <- change_workd(bikeSharing$weathersit)
+bikeSharing$weathersit <- factor(bikeSharing$weathersit, levels = c("Clear", "Mist", "Light rain/snow", "Heavy rain/snow"),
+    ordered = TRUE
+  )
+```
 ## Análise exploratória dos dados
 
 ```{r setup2, include=FALSE}
