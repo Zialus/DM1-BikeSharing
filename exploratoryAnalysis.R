@@ -23,13 +23,13 @@ mean_temp_2012 <- bikeSharing %>% filter(yr == 2012) %>% group_by(mnth) %>% summ
 
 
 gp1 <- gr_by_month %>% ggplot() + geom_bar(aes(x = mnth, y = total_cnt * 35 / 220000, fill = yr), stat = "identity", position = "dodge") +
-  geom_line(data = mean_temp_2011, aes(x = mnth, y = mean_temperature, group = 1,color="red"), show.legend = FALSE) +
-  geom_line(data = mean_temp_2012, aes(x = mnth, y = mean_temperature, group = 1,color="black"), show.legend = FALSE) +
+  geom_line(data = mean_temp_2011, aes(x = mnth, y = mean_temperature, group = 1,color="yellow"), show.legend = FALSE) +
+  geom_line(data = mean_temp_2012, aes(x = mnth, y = mean_temperature, group = 1,color="orange"), show.legend = FALSE) +
   scale_y_continuous(name = expression("Temperatura ("~degree~"C)"),
                      sec.axis = sec_axis(~ . * 220000 / 35, name = "Nº de alugueres"),
                      limits = c(0, 35)
                      ) +
-  labs(x = "Mês")
+  labs(x = "Mês",fill = "Year")
 
 gp1
 
@@ -46,6 +46,11 @@ gp2 <- ggplot(gr_by_tudo2, aes(mnth, count / 1000, fill = type)) +
   scale_y_continuous(labels = comma) + labs(fill = "Tipo:", x = "Mês", y = "Nº de alugueres (x1000)")
 
 gp2
+
+gp12 <- ggplot(gr_by_tudo2, aes(x= mnth, y=count / 1000, fill= type)) +
+  geom_bar(stat = "identity", position = "dodge") + scale_y_continuous(labels = comma)
+
+gp12
 
 
 #casuals/regist por dia da semana
