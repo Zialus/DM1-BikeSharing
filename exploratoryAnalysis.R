@@ -112,7 +112,7 @@ gp9
 
 gr_by_seas <-
   select(bikeSharing,
-         real_atemp,
+         real_temp,
          real_hum,
          real_windspeed,
          season,
@@ -120,19 +120,19 @@ gr_by_seas <-
          registered) %>% group_by(season)
 
 gp5 <-
-  ggplot(gr_by_seas, aes(real_atemp, real_hum, color = season)) + geom_point()
+  ggplot(gr_by_seas, aes(real_temp, real_hum, color = season)) + geom_point()
 
 gp5
 
 #season vs weather situation vs count casual/registered
 #nota-se que para ambos os tipos, os alugueres são feitos mais de acordo com o clima do que com as estações
 
-gr_by_sit <- select(bikeSharing, season, weathersit, casual, registered,day) %>% group_by(season)
+gr_by_sit <- select(bikeSharing, season, weathersit, casual, registered,seasonday) %>% group_by(season)
 gr_by_sit2 <- gather(gr_by_sit, tipo, cont, casual:registered)
 
 
 gp6 <-
-  ggplot(gr_by_sit2, aes(x= day, y= cont, fill = tipo)) +
+  ggplot(gr_by_sit2, aes(x= seasonday, y= cont, fill = tipo)) +
   geom_bar(stat = "identity") + facet_grid(weathersit ~ season) +
   ggtitle('Distribution of casual/registered as a function of weather situation and Season')
 
@@ -140,14 +140,23 @@ gp6
 
 #Relationship between the frequency of casual and registered clients
 gp7 <-
-  ggplot(bikeSharing, aes(x = casual, y = registered, color = season)) + geom_point() +
+  ggplot(bikeSharing, aes(x = casual, y = registered)) + geom_point() +
+  geom_smooth() +
   ggtitle('Relationship between the frequency of casual and registered clients')
 
 gp7
 
+gp10 <-
+  ggplot(bikeSharing, aes(x = casual, y = registered, color = season)) + geom_point() +
+  geom_smooth() +
+  ggtitle('Relationship between the frequency of casual and registered clients')
+
+gp10
+
+
 #frequencia de casual e registered em funçao de windspeed
-gr_by_wind <- select(bikeSharing, real_hum, casual, registered)
+gr_by_wind <- select(bikeSharing, real_windspeed, casual, registered)
 gr_by_wind2 <- gather(gr_by_wind, tipo, cont, casual:registered)
-gp8 <- ggplot(gr_by_wind2, aes(real_hum, cont, color = tipo)) + geom_point()
+gp8 <- ggplot(gr_by_wind2, aes(real_windspeed, cont)) + geom_point()
 
 gp8
