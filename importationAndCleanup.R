@@ -4,6 +4,8 @@ library(lubridate)
 
 bikeSharing <- read.csv("Dataset/day.csv", header = TRUE)
 
+# Add day of the year column
+bikeSharing$day <- yday(bikeSharing$dteday)
 
 # Verify if all entries on the dataset are from 2011 and 2012
 all_the_dates <- bikeSharing$dteday
