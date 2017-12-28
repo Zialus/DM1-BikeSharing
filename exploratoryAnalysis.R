@@ -85,6 +85,27 @@ gp4 <- ggplot(gr_by_workd2, aes(type, cont, fill = workingday)) +
 
 gp4
 
+
+# group by holiday vs. casual/registered
+gr_by_holyd <-
+  select(bikeSharing, holiday, casual, registered) %>% group_by(holiday) %>%
+  summarise(casual = sum(casual), registered = sum(registered))
+
+# calculate mean of rentals by workingday type
+holiday_count <- count(bikeSharing, bikeSharing$holiday)
+gr_by_holyd$n <- holiday_count$n
+gr_by_holyd$mean_casual <- gr_by_holyd$casual / gr_by_holyd$n
+gr_by_holyd$mean_reg <- gr_by_holyd$registered / gr_by_holyd$n
+
+# gather columns by type/cont
+gr_by_holyd2 <- gather(gr_by_holyd, type, cont, mean_casual:mean_reg)
+
+#plot workingday by casual/registerd count
+gp9 <- ggplot(gr_by_holyd2, aes(type, cont, fill = holiday)) +
+  geom_bar(stat = "identity", position = "dodge")
+
+gp9
+
 #so para ter um grafico de pontos
 #temperatura vs. humidade por estação
 
