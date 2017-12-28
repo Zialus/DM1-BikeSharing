@@ -66,7 +66,7 @@ bikeSharing$yr <- factor(bikeSharing$yr, levels = c(2011, 2012), ordered = TRUE)
 
 Da mesma forma, a coluna **weathersit** também foi modificada. Os valores 1, 2, 3 e 4 foram 
 
-```{r test3, eval=FALSE}
+```{r test4, eval=FALSE}
 change_workd <- function(x) {
   sapply(x, function(x) {
     switch(as.character(x), "1" = "Clear", "2" = "Mist", "3" = "Light rain/snow", "4" = "Heavy rain/snow")
@@ -106,6 +106,29 @@ gp1 <- gr_by_month %>% ggplot() + geom_bar(aes(x = mnth, y = total_cnt * 35 / 22
 
 gp1
 ```
+
+
+```{r}
+gr_by_weekd <-
+  select(bikeSharing, weekday, casual, registered) %>% group_by(weekday) %>%
+  summarise(casuals = sum(casual),
+            registered = sum(registered))
+
+#converter casual/registered em colunas tipo/contagem
+gr_by_weekd2 <- gather(gr_by_weekd, type, count, casuals:registered)
+
+
+#gráfico weekday vs tipo/contagem
+#casuals alugam mais ao fim de semana, registered alugam mais durante a semana útil (talvez ate como meio de transporte para o trabalho)
+gp3 <- ggplot(gr_by_weekd2, aes(weekday, count, fill = type)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_y_continuous(labels = comma)
+
+gp3
+
+```
+
+
 
 ## Definição de Modelo de previsão
 

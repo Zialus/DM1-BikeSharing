@@ -55,13 +55,14 @@ gr_by_weekd <-
             registered = sum(registered))
 
 #converter casual/registered em colunas tipo/contagem
-gr_by_weekd2 <- gather(gr_by_weekd, tipo, cont, casuals:registered)
+gr_by_weekd2 <- gather(gr_by_weekd, type, count, casuals:registered)
 
 
 #gráfico weekday vs tipo/contagem
 #casuals alugam mais ao fim de semana, registered alugam mais durante a semana útil (talvez ate como meio de transporte para o trabalho)
-gp3 <- ggplot(gr_by_weekd2, aes(weekday, cont, fill = tipo)) +
-  geom_bar(stat = "identity", position = "dodge")
+gp3 <- ggplot(gr_by_weekd2, aes(weekday, count, fill = type)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_y_continuous(labels = comma)
 
 gp3
 
