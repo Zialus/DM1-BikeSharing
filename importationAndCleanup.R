@@ -67,6 +67,46 @@ change_weathersit <- function(x) {
   })
 }
 
+getSeason <- function(DATES) {
+  WS <- as.Date("2012-12-21", format = "%Y-%m-%d") # Winter Solstice
+  SE <- as.Date("2012-3-21",  format = "%Y-%m-%d") # Spring Equinox
+  SS <- as.Date("2012-6-21",  format = "%Y-%m-%d") # Summer Solstice
+  FE <- as.Date("2012-9-23",  format = "%Y-%m-%d") # Fall Equinox
+  
+  # Convert dates from any year to 2012 dates
+  d <- as.Date(strftime(DATES, format="2012-%m-%d"))
+  
+  ifelse (d >= WS | d < SE, "Winter",
+          ifelse (d >= SE & d < SS, "Spring",
+                  ifelse (d >= SS & d < FE, "Summer", "Fall")))
+}
+
+# Add day within season
+add_day_w_season <- function(days,seasons) {
+      sapply(days, function(x) {
+      current_day <- x
+      season <- getSeason(current_day)
+      currentyear <- year(current_day)
+      switch(
+      as.character(season),
+      "Winter" = season_first_day <- as.Date(paste(currentyear,"12-21",sep="-")),
+      "Spring" = season_first_day <- as.Date(paste(currentyear,"03-21",sep="-")),
+      "Summer" = season_first_day <- as.Date(paste(currentyear,"06-21",sep="-")),
+      "Fall" = season_first_day <- as.Date(paste(currentyear,"09-23",sep="-"))
+    )
+    if ( yday(current_day) < yday("2012-3-21") ){
+      tmp <- year(season_first_day)-1
+      season_first_day <- paste(tmp,"12-21",sep="-")
+      ceiling(difftime(current_day, season_first_day, units = "days"))
+    }
+    else{
+      ceiling(difftime(current_day, season_first_day, units = "days"))
+    }
+  })
+}
+
+bikeSharing$seasonday <- add_day_w_season(bikeSharing$dteday,bikeSharing$season)
+
 bikeSharing$weathersit <- change_weathersit(bikeSharing$weathersit)
 bikeSharing$weathersit <-
   factor(
