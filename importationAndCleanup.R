@@ -55,7 +55,7 @@ bikeSharing$season <-
   )
 
 # Change the values of "weathersit"
-change_workd <- function(x) {
+change_weathersit <- function(x) {
   sapply(x, function(x) {
     switch(
       as.character(x),
@@ -67,7 +67,7 @@ change_workd <- function(x) {
   })
 }
 
-bikeSharing$weathersit <- change_workd(bikeSharing$weathersit)
+bikeSharing$weathersit <- change_weathersit(bikeSharing$weathersit)
 bikeSharing$weathersit <-
   factor(
     bikeSharing$weathersit,
