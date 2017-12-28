@@ -1,5 +1,5 @@
 ---
-title: "Relatório Data Mining 1 - Análise dos alugeres de bicicletas da Capital Bikeshare"
+title: "Relatório do trabalho 1 de Data Mining 1 - Análise dos alugueres de bicicletas da Capital Bikeshare"
 author: "Miguel Barbosa, Raul Ferreira, Tiago Martins"
 date: "31 de Dezembro de 2017"
 output:
@@ -15,11 +15,27 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introdução do problema
 
-O data set disponibilizado para a realização deste trabalho contêm informação sobre alugeres de bicicletas da Capital Bikeshare, de Washington D.C.. O data set original tem um total de 731 observações e 16 variáveis. O conjunto dos dados está relacionado com um registo histórico dos anos 2011 e 2012. Para cada observação, ou seja, para cada dia de cada um dos dois anos, também existem as seguintes características: o index da observação, a data, a estação do ano, o ano, o mês do ano (1-12), a hora do dia (0-23), se o dia é um feriado ou não, qual o dia da semana, se é fim-de-semana ou não, (FALTA weathersit), temperatura normalizada, temperatura sentida normalizada, humidade normalizada, velocidade do vento normalizada, número de alugeres por utilizadores casuais, número de alugeres por utilizadores registados, e por fim, o total de bicicletas alugadas.
+O data set disponibilizado para a realização deste trabalho contêm informação sobre alugueres de bicicletas da Capital Bikeshare, de Washington D.C.. O *data set* original tem um total de 731 observações e 16 variáveis. O conjunto dos dados está relacionado com um registo histórico dos anos 2011 e 2012. Para cada observação, ou seja, para cada dia de cada um dos dois anos, também existem as seguintes características: o *index* da observação, a data, a estação do ano, o ano, o mês do ano (1-12), a hora do dia (0-23), se o dia é um feriado ou não, qual o dia da semana, se é fim-de-semana ou não, (FALTA weathersit), temperatura normalizada, temperatura sentida normalizada, humidade normalizada, velocidade do vento normalizada, número de alugueres por utilizadores casuais, número de alugueres por utilizadores registados, e por fim, o total de bicicletas alugadas.
 
 
 ## Importação/Pré-processamentos dos dados
 
+<!-- VER O PROBLEMA DAS SEASONS -->
+
+Primeiramente, foi utilizada a função **read.csv** de forma a importar o *data set*, com o argumento **header** para indicar que o ficheiro contém os nomes das variáveis na sua primeira linha. Não foi utilizado o argumento **na.strings**, pois após uma verificação inicial dos dados, concluiu-se que não existiam nenhuns valores desconhecidos.
+
+```{r import, eval=FALSE}
+bikeSharing <- read.csv("Dataset/day.csv", header = TRUE)
+```
+
+
+De seguida, foram efetuados alguns testes para verificar se os valores de certas variáveis estavam corretos. 
+
+```{r test1, eval=FALSE}
+subset(bikeSharing, bikeSharing$casual + bikeSharing$registered != bikeSharing$cnt)
+```
+
+- Com esse código verificou-se que para todas as observações, o valor da variável **cnt** corresponde de facto, à soma das variáveis **casual** e **registered**.
 
 
 ## Análise exploratória dos dados
@@ -32,7 +48,7 @@ library(tidyr)
 library(scales)
 ```
 
-```{r just_testing}
+```{r just_testing, echo=FALSE}
 gr_by_month <- select(bikeSharing, yr, mnth, cnt) %>% group_by(yr, mnth) %>%
   summarise(total_cnt = sum(cnt))
 
