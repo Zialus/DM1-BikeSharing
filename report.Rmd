@@ -29,7 +29,7 @@ bikeSharing <- read.csv("Dataset/day.csv", header = TRUE)
 ```
 
 
-De seguida, foram efetuados alguns testes para verificar se os valores de certas variáveis estavam corretos. Também foram criadas várias colunas novas e os valores de certas variáveis foram modificados, com o objetivo de tornar a análise dos dados mais acessí 
+De seguida, foram efetuados alguns testes para verificar se os valores de certas variáveis estavam corretos. Também foram criadas várias colunas novas e os valores de certas variáveis foram modificados, com o objetivo de tornar a interpretação dos dados mais fácil. 
 
 ```{r test1, eval=FALSE}
 subset(bikeSharing, bikeSharing$casual + bikeSharing$registered != bikeSharing$cnt)
@@ -64,7 +64,7 @@ bikeSharing$yr <- change_year(bikeSharing$yr)
 bikeSharing$yr <- factor(bikeSharing$yr, levels = c(2011, 2012), ordered = TRUE)
 ```
 
-Da mesma forma, a coluna **weathersit** também foi modificada. Os valores 1, 2, 3 e 4 foram 
+Da mesma forma, a coluna **weathersit** também foi modificada. Os valores 1, 2, 3 e 4 deram lugar a *Clear*, *Mist*, *Light rain/snow* e *Heavy rain/snow*, respetivamente.
 
 ```{r test4, eval=FALSE}
 change_workd <- function(x) {
@@ -78,6 +78,33 @@ bikeSharing$weathersit <- factor(bikeSharing$weathersit, levels = c("Clear", "Mi
     ordered = TRUE
   )
 ```
+
+A variável **mnth** foi alterada, para apresentar o nome do mês em vez de um inteiro de 1 a 12. A coluna **weekday** passou a ser representada pelo o nome do dia da semana, e não por um inteiro de 0 a 6. Finalmente, as variáveis **holiday** e **workingday** passaram a ter valores *booleanos* em vez do valor 0 ou 1.
+
+```{r test5, eval=FALSE}
+bikeSharing$mnth <- month(bikeSharing$mnth, label = TRUE, abbr = FALSE)
+
+bikeSharing$weekday <- wday(bikeSharing$dteday, label = TRUE, abbr = FALSE)
+
+bikeSharing$holiday <- as.logical(bikeSharing$holiday)
+
+bikeSharing$workingday <- as.logical(bikeSharing$workingday)
+```
+
+
+Foram criadas 4 novas variáveis, que representam os valores reais das colunas **temp**, **atemp**, **hum** e **windspeed**.
+
+```{r, eval=FALSE}
+bikeSharing <- mutate(bikeSharing, real_temp = bikeSharing$temp * 41)
+
+bikeSharing <- mutate(bikeSharing, real_atemp = bikeSharing$atemp * 41)
+
+bikeSharing <- mutate(bikeSharing, real_hum = bikeSharing$hum * 100)
+
+bikeSharing <- mutate(bikeSharing, real_windspeed = bikeSharing$windspeed * 67)
+```
+
+
 ## Análise exploratória dos dados
 
 ```{r setup2, include=FALSE}
