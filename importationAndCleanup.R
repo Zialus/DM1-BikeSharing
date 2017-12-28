@@ -22,7 +22,10 @@ change_year <- function(x) {
 }
 
 bikeSharing$yr <- change_year(bikeSharing$yr)
-bikeSharing$yr <- factor(bikeSharing$yr, levels = c(2011, 2012), ordered = TRUE)
+bikeSharing$yr <-
+  factor(bikeSharing$yr,
+         levels = c(2011, 2012),
+         ordered = TRUE)
 
 
 # Verify if the values of "season" are within bounds
@@ -42,7 +45,33 @@ change_season <- function(x) {
 }
 
 bikeSharing$season <- change_season(bikeSharing$season)
-bikeSharing$season <- factor(bikeSharing$season, levels = c("Spring", "Summer", "Fall", "Winter"), ordered = TRUE)
+bikeSharing$season <-
+  factor(
+    bikeSharing$season,
+    levels = c("Spring", "Summer", "Fall", "Winter"),
+    ordered = TRUE
+  )
+
+# Change the values of "weathersit"
+change_workd <- function(x) {
+  sapply(x, function(x) {
+    switch(
+      as.character(x),
+      "1" = "Clear",
+      "2" = "Mist",
+      "3" = "Light rain/snow",
+      "4" = "Heavy rain/snow"
+    )
+  })
+}
+
+bikeSharing$weathersit <- change_workd(bikeSharing$weathersit)
+bikeSharing$weathersit <-
+  factor(
+    bikeSharing$weathersit,
+    levels = c("Clear", "Mist", "Light rain/snow", "Heavy rain/snow"),
+    ordered = TRUE
+  )
 
 # Change the column "month" from 0-12 to January/.../December
 bikeSharing$mnth <- month(bikeSharing$mnth, label = TRUE, abbr = FALSE)
