@@ -100,7 +100,7 @@ bikeSharing <- mutate(bikeSharing, real_windspeed = bikeSharing$windspeed * 67)
 
 
 # Add day of the year column
-bikeSharing <- mutate(bikeSharing, day = yday(bikeSharing$dteday)) 
+bikeSharing <- mutate(bikeSharing, day = yday(bikeSharing$dteday))
 
 # Add day within season
 add_day_w_season <- function(days, seasons) {

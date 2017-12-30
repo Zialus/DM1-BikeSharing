@@ -48,7 +48,8 @@ gp2 <- ggplot(gr_by_tudo2, aes(mnth, count / 1000, fill = type)) +
 
 gp2
 
-gp12 <- ggplot(gr_by_tudo2, aes(x= mnth, y=count / 1000, fill= type)) +
+gp12 <-
+  ggplot(gr_by_tudo2, aes(x = mnth, y = count / 1000, fill = type)) +
   geom_bar(stat = "identity", position = "dodge") + scale_y_continuous(labels = comma)
 
 gp12
@@ -138,7 +139,7 @@ gr_by_sit2 <- gather(gr_by_sit, tipo, cont, casual:registered)
 
 
 gp6 <-
-  ggplot(gr_by_sit2, aes(x= seasonday, y= cont, fill = tipo)) +
+  ggplot(gr_by_sit2, aes(x = seasonday, y = cont, fill = tipo)) +
   geom_bar(stat = "identity") + facet_grid(weathersit ~ season) +
   ggtitle('Distribution of casual/registered as a function of weather situation and Season')
 
@@ -146,15 +147,15 @@ gp6
 
 #Relationship between the frequency of casual and registered clients
 gp7 <-
-  ggplot(bikeSharing, aes(x = casual, y = registered)) + geom_point() +
-  geom_smooth() +
+  ggplot(bikeSharing, aes(x = casual, y = registered)) +
+  geom_point() + geom_smooth() +
   ggtitle('Relationship between the frequency of casual and registered clients')
 
 gp7
 
 gp10 <-
-  ggplot(bikeSharing, aes(x = casual, y = registered, color = season)) + geom_point() +
-  geom_smooth() +
+  ggplot(bikeSharing, aes(x = casual, y = registered, color = season)) +
+  geom_point() + geom_smooth() +
   ggtitle('Relationship between the frequency of casual and registered clients')
 
 gp10
