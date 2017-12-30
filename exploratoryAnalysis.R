@@ -29,7 +29,8 @@ gp1 <- gr_by_month %>% ggplot() + geom_bar(aes(x = mnth, y = total_cnt * 35 / 22
                      sec.axis = sec_axis(~ . * 220000 / 35, name = "Nº de alugueres"),
                      limits = c(0, 35)
                      ) +
-  labs(x = "Mês",fill = "Year")
+  labs(x = "Mês",fill = "Ano") +
+  ggtitle("Número de alugueres totais em cada mês e ano")
 
 gp1
 

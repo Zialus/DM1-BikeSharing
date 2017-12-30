@@ -160,19 +160,18 @@ library(scales)
 gr_by_month <- select(bikeSharing, yr, mnth, cnt) %>% group_by(yr, mnth) %>%
   summarise(total_cnt = sum(cnt))
 
-mean_temp <- bikeSharing %>% group_by(mnth) %>% 
-  summarise(mean_temperature = mean(real_temp))
+mean_temp_2011 <- bikeSharing %>% filter(yr == 2011) %>% group_by(mnth) %>% summarise(mean_temperature = mean(real_temp))
+mean_temp_2012 <- bikeSharing %>% filter(yr == 2012) %>% group_by(mnth) %>% summarise(mean_temperature = mean(real_temp))
 
-
-gp1 <- gr_by_month %>% ggplot() + geom_bar(aes(x = mnth, y = total_cnt * 35 / 220000, fill = yr), stat = "identity", position = "dodge") +
-  geom_line(data = mean_temp, aes(x = mnth, y = mean_temperature, group = 1), show.legend = FALSE) +
+gr_by_month %>% ggplot() + geom_bar(aes(x = mnth, y = total_cnt * 35 / 220000, fill = yr), stat = "identity", position = "dodge") +
+  geom_line(data = mean_temp_2011, aes(x = mnth, y = mean_temperature, group = 1,color="yellow"), show.legend = FALSE) +
+  geom_line(data = mean_temp_2012, aes(x = mnth, y = mean_temperature, group = 1,color="orange"), show.legend = FALSE) +
   scale_y_continuous(name = expression("Temperatura ("~degree~"C)"),
                      sec.axis = sec_axis(~ . * 220000 / 35, name = "Nº de alugueres"),
                      limits = c(0, 35)
                      ) +
-  labs(x = "Mês")
-
-gp1
+  labs(x = "Mês",fill = "Ano") +
+  ggtitle("Número de alugueres totais em cada mês e ano")
 ```
 
 
