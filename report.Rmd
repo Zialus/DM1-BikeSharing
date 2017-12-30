@@ -98,7 +98,7 @@ bikeSharing$workingday <- as.logical(bikeSharing$workingday)
 ```
 
 
-Foram criadas 4 novas variáveis, que representam os valores reais das colunas **temp**, **atemp**, **hum** e **windspeed**.
+Foram criadas 4 novas variáveis, que representam os valores reais das colunas **temp**, **atemp**, **hum** e **windspeed**. Foi também criada a coluna **day**, que adiciona para cada observação, o número do dia do ano, isto é, um número de 1 a 365 ou 366.
 
 ```{r test6, eval=FALSE}
 bikeSharing <- mutate(bikeSharing, real_temp = bikeSharing$temp * 41)
@@ -108,7 +108,42 @@ bikeSharing <- mutate(bikeSharing, real_atemp = bikeSharing$atemp * 41)
 bikeSharing <- mutate(bikeSharing, real_hum = bikeSharing$hum * 100)
 
 bikeSharing <- mutate(bikeSharing, real_windspeed = bikeSharing$windspeed * 67)
+
+bikeSharing <- mutate(bikeSharing, day = yday(bikeSharing$dteday)) 
 ```
+
+Por fim, foi gerada outra nova coluna, **seasonday**, a qual contém o número do dia da observação, em relação à estação do ano em que se encontra. 
+ 
+```{r test_day_w_season, eval=FALSE} 
+add_day_w_season <- function(days, seasons) {
+  mapply(function(x, y) {
+    current_day <- x
+    season <- y
+    currentyear <- year(current_day)
+    switch(
+      as.character(season),
+      "Winter" = season_first_day <-
+        as.Date(paste(currentyear, "12-21", sep = "-")),
+      "Spring" = season_first_day <-
+        as.Date(paste(currentyear, "03-21", sep = "-")),
+      "Summer" = season_first_day <-
+        as.Date(paste(currentyear, "06-21", sep = "-")),
+      "Fall" = season_first_day <-
+        as.Date(paste(currentyear, "09-23", sep = "-"))
+    )
+    if (yday(current_day) < yday(as.Date(paste(currentyear, "03-21", sep = "-")))) {
+      tmp <- year(season_first_day) - 1
+      season_first_day <- paste(tmp, "12-21", sep = "-")
+      ceiling(difftime(current_day, season_first_day, units = "days"))
+    }
+    else{
+      ceiling(difftime(current_day, season_first_day, units = "days"))
+    }
+  }, days, seasons)
+}
+
+bikeSharing$seasonday <- add_day_w_season(bikeSharing$dteday, bikeSharing$season)
+``` 
 
 
 ## Análise exploratória dos dados

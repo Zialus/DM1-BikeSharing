@@ -78,10 +78,10 @@ bikeSharing$weathersit <-
 
 
 # Change the column "month" from 0-12 to January/.../December
-bikeSharing$mnth <- month(bikeSharing$mnth, label = TRUE, abbr = FALSE)
+bikeSharing$mnth <- month(bikeSharing$mnth, label = TRUE, abbr = TRUE)
 
 # Change "weekday" column from values 0-6 to Monday/.../Sunday
-bikeSharing$weekday <- wday(bikeSharing$dteday, label = TRUE, abbr = FALSE)
+bikeSharing$weekday <- wday(bikeSharing$dteday, label = TRUE, abbr = TRUE)
 
 # Change the column "holiday" to Boolean
 bikeSharing$holiday <- as.logical(bikeSharing$holiday)
@@ -100,7 +100,7 @@ bikeSharing <- mutate(bikeSharing, real_windspeed = bikeSharing$windspeed * 67)
 
 
 # Add day of the year column
-bikeSharing$day <- yday(bikeSharing$dteday)
+bikeSharing <- mutate(bikeSharing, day = yday(bikeSharing$dteday)) 
 
 # Add day within season
 add_day_w_season <- function(days, seasons) {
