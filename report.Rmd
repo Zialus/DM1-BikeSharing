@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introdução do problema
 
-O data set disponibilizado para a realização deste trabalho contém informação sobre alugueres de bicicletas da Capital Bikeshare, de Washington D.C.. O *data set* original tem um total de 731 observações e 16 variáveis. O conjunto dos dados está relacionado com um registo histórico dos anos 2011 e 2012. Para cada observação, ou seja, para cada dia de cada um dos dois anos, existem as seguintes características: o *index* da observação, a data, a estação do ano, o ano, o mês do ano (1-12), se o dia é um feriado ou não, o dia da semana, se é fim-de-semana ou não, a condição meteorológicas (1-4), temperatura normalizada, temperatura sentida normalizada, humidade normalizada, velocidade do vento normalizada, número de alugueres por utilizadores casuais, número de alugueres por utilizadores registados, e por fim, o total de bicicletas alugadas.
+O data set disponibilizado para a realização deste trabalho contém informação sobre alugueres de bicicletas da Capital Bikeshare, de Washington D.C.. O *data set* original tem um total de 731 observações e 16 variáveis. O conjunto dos dados está relacionado com um registo histórico dos anos 2011 e 2012. Para cada observação, ou seja, para cada dia de cada um dos dois anos, existem as seguintes características: o *index* da observação, a data, a estação do ano, o ano(0-1), o mês do ano (1-12), se o dia é um feriado ou não, o dia da semana, se é fim-de-semana ou não, a condição meteorológicas (1-4), temperatura normalizada, temperatura sentida normalizada, humidade normalizada, velocidade do vento normalizada, número de alugueres por utilizadores casuais, número de alugueres por utilizadores registados, e por fim, o total de bicicletas alugadas.
 
 
 ## Importação/Pré-processamentos dos dados
@@ -27,17 +27,17 @@ bikeSharing <- read.csv("Dataset/day.csv", header = TRUE)
 ```
 
 
-De seguida, foram efetuados vários testes para verificar se os valores de certas variáveis estavam corretos. Também foram criadas várias colunas novas e os valores de certas variáveis foram modificados, com o objetivo de tornar a interpretação e análise dos dados mais legível. 
+De seguida, foram efetuados vários testes para verificar se os valores de certas variáveis estavam corretos. Foram também criadas várias colunas novas e os valores de certas variáveis foram modificados, com o objetivo de tornar os dados mais legiveis e facilitar a sua interpretação.
 
 Com o seguinte código verificou-se que para cada uma das observações, o valor da variável **cnt** corresponde de facto, à soma das variáveis **casual** e **registered**.
 
-```{r test1, eval=FALSE}
+```{r test1}
 subset(bikeSharing, bikeSharing$casual + bikeSharing$registered != bikeSharing$cnt)
 ```
 
 Também foi verificado que todas as datas representadas correspondem realmente aos anos 2011 e 2012.
 
-```{r test_anos, eval=FALSE}
+```{r test_anos}
 subset(bikeSharing, year(dteday) != 2011 & year(dteday) != 2012)
 ```
 
