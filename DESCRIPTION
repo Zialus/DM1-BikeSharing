@@ -1,0 +1,19 @@
+Title: Data Mining 1 Report
+Version: 0.0.1
+Date: 2017-12-31
+Description:  Analysis of bicycle rentals data from Capital Bikeshare
+URL: https://github.com/Zialus/DM1-BikeSharing/
+Depends:
+    R (>= 3.0)
+Imports:
+    rmarkdown,
+    DMwR,
+    dplyr,
+    lubridate,
+    ggplot2,
+    dplyr,
+    grid,
+    tidyr,
+    scales,
+    knitr
+Suggests:
