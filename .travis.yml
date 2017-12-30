@@ -1,7 +1,7 @@
 language: r
 cache: packages
 
-script: Rscript -e "rmarkdown::render('report.Rmd')
+script: Rscript -e "rmarkdown::render('report.Rmd')"
 
 deploy:
   provider: releases
