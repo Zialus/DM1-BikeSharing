@@ -119,7 +119,7 @@ add_day_w_season <- function(days, seasons) {
       "Fall" = season_first_day <-
         as.Date(paste(currentyear, "09-23", sep = "-"))
     )
-    if (yday(current_day) < yday("2012-3-21")) {
+    if (yday(current_day) < yday(as.Date(paste(currentyear, "03-21", sep = "-")))) {
       tmp <- year(season_first_day) - 1
       season_first_day <- paste(tmp, "12-21", sep = "-")
       ceiling(difftime(current_day, season_first_day, units = "days"))
