@@ -8,8 +8,10 @@ bikeSharing <- read.csv("Dataset/day.csv", header = TRUE)
 bikeSharing$day <- yday(bikeSharing$dteday)
 
 # Verify if all entries on the dataset are from 2011 and 2012
-all_the_dates <- bikeSharing$dteday
-all_the_dates[year(all_the_dates) != 2011 && year(all_the_dates) != 2012]
+subset(bikeSharing, year(dteday) != 2011 & year(dteday) != 2012)
+
+# all_the_dates <- bikeSharing$dteday
+# all_the_dates[(year(all_the_dates) != 2011) & (year(all_the_dates) != 2012)]
 
 # Verify if all entries on the dataset have correct sums for casual and registered
 subset(bikeSharing, casual + registered != cnt)

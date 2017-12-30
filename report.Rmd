@@ -15,12 +15,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introdução do problema
 
-O data set disponibilizado para a realização deste trabalho contêm informação sobre alugueres de bicicletas da Capital Bikeshare, de Washington D.C.. O *data set* original tem um total de 731 observações e 16 variáveis. O conjunto dos dados está relacionado com um registo histórico dos anos 2011 e 2012. Para cada observação, ou seja, para cada dia de cada um dos dois anos, também existem as seguintes características: o *index* da observação, a data, a estação do ano, o ano, o mês do ano (1-12), a hora do dia (0-23), se o dia é um feriado ou não, qual o dia da semana, se é fim-de-semana ou não, (FALTA weathersit), temperatura normalizada, temperatura sentida normalizada, humidade normalizada, velocidade do vento normalizada, número de alugueres por utilizadores casuais, número de alugueres por utilizadores registados, e por fim, o total de bicicletas alugadas.
+O data set disponibilizado para a realização deste trabalho contém informação sobre alugueres de bicicletas da Capital Bikeshare, de Washington D.C.. O *data set* original tem um total de 731 observações e 16 variáveis. O conjunto dos dados está relacionado com um registo histórico dos anos 2011 e 2012. Para cada observação, ou seja, para cada dia de cada um dos dois anos, existem as seguintes características: o *index* da observação, a data, a estação do ano, o ano, o mês do ano (1-12), se o dia é um feriado ou não, o dia da semana, se é fim-de-semana ou não, a condição meteorológicas (1-4), temperatura normalizada, temperatura sentida normalizada, humidade normalizada, velocidade do vento normalizada, número de alugueres por utilizadores casuais, número de alugueres por utilizadores registados, e por fim, o total de bicicletas alugadas.
 
 
 ## Importação/Pré-processamentos dos dados
-
-<!-- VER O PROBLEMA DAS SEASONS -->
 
 Primeiramente, foi utilizada a função **read.csv** de forma a importar o *data set*, com o argumento **header** para indicar que o ficheiro contém os nomes das variáveis na sua primeira linha. Não foi utilizado o argumento **na.strings**, pois após uma verificação inicial dos dados, concluiu-se que não existiam nenhuns valores desconhecidos.
 
@@ -29,15 +27,21 @@ bikeSharing <- read.csv("Dataset/day.csv", header = TRUE)
 ```
 
 
-De seguida, foram efetuados alguns testes para verificar se os valores de certas variáveis estavam corretos. Também foram criadas várias colunas novas e os valores de certas variáveis foram modificados, com o objetivo de tornar a interpretação dos dados mais fácil. 
+De seguida, foram efetuados vários testes para verificar se os valores de certas variáveis estavam corretos. Também foram criadas várias colunas novas e os valores de certas variáveis foram modificados, com o objetivo de tornar a interpretação e análise dos dados mais legível. 
+
+Com o seguinte código verificou-se que para cada uma das observações, o valor da variável **cnt** corresponde de facto, à soma das variáveis **casual** e **registered**.
 
 ```{r test1, eval=FALSE}
 subset(bikeSharing, bikeSharing$casual + bikeSharing$registered != bikeSharing$cnt)
 ```
 
-Com esse código verificou-se que para todas as observações, o valor da variável **cnt** corresponde de facto, à soma das variáveis **casual** e **registered**.
+Também foi verificado que todas as datas representadas correspondem realmente aos anos 2011 e 2012.
 
-Na descrição dos dados do *data set*, era mencionado que na coluna **season**, o valor 1 representava a estação *spring*, o 2 a estação *summer*, o 3 representava a estação *fall*, e finalmente, o valor 4 o *winter*. No entanto averiguou-se que esses valores estavam errados. O valor 1 representa, na realidade, a estação *winter*, o 2 a estação *string*, *etc*. Procedeu-se assim, à correção da coluna **season**.
+```{r test_anos, eval=FALSE}
+subset(bikeSharing, year(dteday) != 2011 & year(dteday) != 2012)
+```
+
+Na descrição dos dados do *data set*, era mencionado que na coluna **season**, o valor 1 representava a estação *spring*, o 2 a estação *summer*, o 3 representava a estação *fall*, e finalmente, o valor 4 o *winter*. No entanto averiguou-se que esses valores estavam errados. O valor 1 representa, na realidade, a estação *winter*, o 2 a estação *spring*, *etc*. Procedeu-se assim, à correção da coluna **season**.
 
 ```{r test2, eval=FALSE}
 change_season <- function(x) {
@@ -67,19 +71,19 @@ bikeSharing$yr <- factor(bikeSharing$yr, levels = c(2011, 2012), ordered = TRUE)
 Da mesma forma, a coluna **weathersit** também foi modificada. Os valores 1, 2, 3 e 4 deram lugar a *Clear*, *Mist*, *Light rain/snow* e *Heavy rain/snow*, respetivamente.
 
 ```{r test4, eval=FALSE}
-change_workd <- function(x) {
+change_weathersit <- function(x) {
   sapply(x, function(x) {
     switch(as.character(x), "1" = "Clear", "2" = "Mist", "3" = "Light rain/snow", "4" = "Heavy rain/snow")
   })
 }
 
-bikeSharing$weathersit <- change_workd(bikeSharing$weathersit)
+bikeSharing$weathersit <- change_weathersit(bikeSharing$weathersit)
 bikeSharing$weathersit <- factor(bikeSharing$weathersit, levels = c("Clear", "Mist", "Light rain/snow", "Heavy rain/snow"),
     ordered = TRUE
   )
 ```
 
-A variável **mnth** foi alterada, para apresentar o nome do mês em vez de um inteiro de 1 a 12. A coluna **weekday** passou a ser representada pelo o nome do dia da semana, e não por um inteiro de 0 a 6. Finalmente, as variáveis **holiday** e **workingday** passaram a ter valores *booleanos* em vez do valor 0 ou 1.
+A variável **mnth** foi alterada, para apresentar o nome do mês em vez de um inteiro de 1 a 12. A coluna **weekday** passou a ser representada pelo o nome do dia da semana, e não por um inteiro de 0 a 6. As variáveis **holiday** e **workingday** passaram a ter valores *booleanos* em vez do valor 0 ou 1.
 
 ```{r test5, eval=FALSE}
 bikeSharing$mnth <- month(bikeSharing$mnth, label = TRUE, abbr = FALSE)
@@ -94,7 +98,7 @@ bikeSharing$workingday <- as.logical(bikeSharing$workingday)
 
 Foram criadas 4 novas variáveis, que representam os valores reais das colunas **temp**, **atemp**, **hum** e **windspeed**.
 
-```{r, eval=FALSE}
+```{r test6, eval=FALSE}
 bikeSharing <- mutate(bikeSharing, real_temp = bikeSharing$temp * 41)
 
 bikeSharing <- mutate(bikeSharing, real_atemp = bikeSharing$atemp * 41)
