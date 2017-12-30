@@ -1,0 +1,14 @@
+language: r
+cache: packages
+
+script: Rscript -e "rmarkdown::render('report.Rmd')
+
+deploy:
+  provider: releases
+  api_key:
+    secure: ep8frAwOs0iRYIhZ66K1+LZi0KIyL/5IkgP8ZQPDOfp7PVIm700z84pCgstxAsyJ3GnY8v+GDU1vcFF9ew7EyjdP6qzgeSzam6D2+uY48dYZLVmI+leW8Z/5hNK/NVgWrcOQT7zZrD0MEzw04IP3pPd+0iVWf1wu5bZZLtwYYIZe9ymIK+cKEq0RYwYcihsGsZ0oWSgDAgz30z8hYEwnFHpiPUZ1ZhRHQ+muxNMHpWwRhlF/pRBHwa/zjHUxm7JYve7PsjpPdfTKoBJeGe6yGpPbvgkot5/BZIlxgSKqYJI1Pu6YCMm+s69SmulJapHg5hJc3j6ytmxrZhizqtYuy4K3n4je8U29I0b9YNmBsw5LV7bdK+I/g0en+OPF8uZBIvBi6xAp0JJeL0WpYZCChQurPLxtbqXOH48hOrJWwBrCfXqbbCe+/yw6s2ok9nwXzQOBOqS3HCXnv1fTwAeWwIIKSn7991wXJADNJ1WfNQ0nUdReVhLoQbokaIMI2PuPI9R9GIdeE7ZGGhkzLgn8luURg7RpQ0wjb5rFz4+lBlCxHTzUQ+BznqTEryDtLHfQu/+uKUj6rqVPCzBBjj80x734ozKLLVviZz2hKuMNxVNIOupZZzXUNmwefqpMHD01f9YWZm5MOMsW0tmvSXn/0iczjgwrw1asT1hdqEyjnRw=
+  file: report.pdf
+  skip_cleanup: true
+  on:
+    repo: Zialus/DM1-BikeSharing
+    tags: true
