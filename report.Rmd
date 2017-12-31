@@ -4,9 +4,9 @@ title: Relatório do trabalho 1 de Data Mining 1 - Análise dos alugueres de bic
 author: "Miguel Barbosa, Raul Ferreira, Tiago Martins"
 date: "31 de Dezembro de 2017"
 output:
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
 ---
 
 
@@ -80,9 +80,8 @@ change_weathersit <- function(x) {
 }
 
 bikeSharing$weathersit <- change_weathersit(bikeSharing$weathersit)
-bikeSharing$weathersit <- factor(bikeSharing$weathersit, levels = c("Clear", "Mist", "Light rain/snow", "Heavy rain/snow"),
-    ordered = TRUE
-  )
+bikeSharing$weathersit <- factor(bikeSharing$weathersit, 
+                                 levels = c("Clear", "Mist", "Light rain/snow", "Heavy rain/snow"), ordered = TRUE)
 ```
 
 A variável **mnth** foi alterada, para apresentar o nome do mês em vez de um inteiro de 1 a 12. A coluna **weekday** passou a ser representada pelo o nome do dia da semana, e não por um inteiro de 0 a 6. As variáveis **holiday** e **workingday** passaram a ter valores *booleanos* em vez do valor 0 ou 1.
@@ -156,7 +155,7 @@ library(tidyr)
 library(scales)
 ```
 
-```{r just_testing, echo=FALSE}
+```{r num_alug_mes, echo=FALSE}
 gr_by_month <- select(bikeSharing, yr, mnth, cnt) %>% group_by(yr, mnth) %>%
   summarise(total_cnt = sum(cnt))
 
@@ -173,6 +172,12 @@ gr_by_month %>% ggplot() + geom_bar(aes(x = mnth, y = total_cnt * 35 / 220000, f
   labs(x = "Mês",fill = "Ano") +
   ggtitle("Número de alugueres totais em cada mês e ano")
 ```
+
+No primeiro gráfico está representado para cada mês de 2011 e 2012, o número de alugueres de bicicletas totais. Também é mostrado a temperatura média de cada mês.
+Deste gráfico é possível retirar várias conclusões distintas. Primeiro, o número total de alugueres cresceu consideravelmente de 2011 para 2012. Todos os mêses de 2012 têm um número de alugueres superior ao mês correspondente em 2011, sendo até que mêses como Janeiro, Fevereiro e Março, duplicaram o número de bicicletas alugadas de um ano para o outro. 
+Em relação à temperatura média dos mêses para cada um dos anos, como seria de esperar, cresce ao longo ao mêses, tendo o seu pico em Julho, a partir do qual começa a decrescer. Os valores médios de cada mês são quase idênticos nos 2 anos, com a excepção apenas dos mêses Janeiro e Março. 
+
+<!-- o crescimento ao longo dos meses foi muito mais pronunciado em 2011... -->
 
 
 ```{r}
