@@ -222,22 +222,6 @@ Neste esquema é apresentado, tanto para os casuais como para os registados, o n
 
 É possível verificar que existem muitos mais alugueres registados do que casuais em todos os dias da semana, e que, para ambos os tipos de alugueres, os valores nos dias de segunda a sexta permanecem relativamente constantes. No entanto, durante os dias de fim de semana, existem dois acontecimentos opostos: enquanto que o número de alugueres registados diminui cerca de 25%, os alugueres casuais duplicam durante esse mesmo período.
 
-```{r weather_vs_season, echo=FALSE}
-gr_by_sit <- select(bikeSharing, season, weathersit, casual, registered,seasonday) %>% group_by(season)
-gr_by_sit2 <- gather(gr_by_sit, tipo, cont, casual:registered)
-
-ggplot(gr_by_sit2, aes(x = seasonday, y = cont, fill = tipo)) +
-  geom_bar(stat = "identity") + facet_grid(weathersit ~ season) +
-  ggtitle('Distribuição de causais/registados pelas estações e clima') + 
-  labs(fill = "Tipo:", x = "Dia da estação", y = "Nº de alugueres")
-```
-
-Neste esquema está representada a distribuição dos alugueres casuais e registados pelas diferentes estações do ano e pelos diferentes climas.
-
-Como se pode ver pelo conjunto de gráficos, a importância do clima é preponderante. Apesar de ser claro que existem diferenças no número de alugueres entre as 4 estações, os alugueres são feitos mais de acordo com o tipo de clima do que com a estação do ano em que se encontra. No caso do clima ser de chuva ou neve, o número de alugueres, tanto casuais como registados, é muito baixo, em todas as estações. Nos outros dois tipos de clima, limpo e nevoeiro, apesar de terem valores diferentes entre si, apresentam um número de alugueres relativamente igual durante todas as estações.
-
-<!-- É também de salientar que em casos de chuva forte praticamente não existem alugueres de utilizadores casuais. -->
-
 
 ```{r cas_reg_workingday, echo=FALSE}
 gr_by_workd <-
@@ -265,6 +249,20 @@ Este gráfico mostra a média de alugueres casuais e registados, fazendo uma dis
 
 Estes valores vão de acordo com os que foram observados no gráfico anterior. No caso dos casuais, os alugueres durante o fim de semana ou em feriados são, no mínimo, o dobro dos alugueres realizados durante os dias de trabalho. Quanto aos registados, existe um decréscimo de cerca de 25% entre os alugueres em dias de trabalho e os alugueres ao fim de semana/feriados.
 
+```{r weather_vs_season, echo=FALSE}
+gr_by_sit <- select(bikeSharing, season, weathersit, casual, registered,seasonday) %>% group_by(season)
+gr_by_sit2 <- gather(gr_by_sit, tipo, cont, casual:registered)
+
+ggplot(gr_by_sit2, aes(x = seasonday, y = cont, fill = tipo)) +
+  geom_bar(stat = "identity") + facet_grid(weathersit ~ season) +
+  ggtitle('Distribuição de causais/registados pelas estações e clima') + 
+  labs(fill = "Tipo:", x = "Dia da estação", y = "Nº de alugueres")
+```
+
+Neste esquema está representada a distribuição dos alugueres casuais e registados pelas diferentes estações do ano e pelos diferentes climas.
+
+Como se pode ver pelo conjunto de gráficos, a importância do clima é preponderante. Apesar de ser claro que existem diferenças no número de alugueres entre as 4 estações, os alugueres são feitos mais de acordo com o tipo de clima do que com a estação do ano. No caso do clima ser de chuva ou neve, o número de alugueres é muito baixo, em todas as estações, sendo praticamente nulo nulo para utilizadores casuais.
+Nos outros dois tipos de clima - limpo e nevoeiro - apesar de terem valores diferentes entre si, apresentam um número de alugueres relativamente igual durante todas as estações.
 
 ## Definição de Modelo de previsão
 
