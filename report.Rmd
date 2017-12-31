@@ -228,8 +228,8 @@ gr_by_sit2 <- gather(gr_by_sit, tipo, cont, casual:registered)
 
 ggplot(gr_by_sit2, aes(x = seasonday, y = cont, fill = tipo)) +
   geom_bar(stat = "identity") + facet_grid(weathersit ~ season) +
-  ggtitle('Distribution of casual/registered as a function of weather situation and Season')
-
+  ggtitle('Distribuição de causais/registados pelas estações e clima') + 
+  labs(fill = "Tipo:", x = "Dia da estação", y = "Nº de alugueres")
 ```
 
 Como se pode ver neste conjunto de gráficos, a importância do clima é preponderante. Nota-se que para ambos os tipos, os alugueres são feitos mais de acordo com o clima do que com as estações. É também de salientar que em casos de chuva forte praticamente não existem alugueres de utilizadores casuais.
