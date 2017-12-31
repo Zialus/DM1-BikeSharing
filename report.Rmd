@@ -220,7 +220,7 @@ ggplot(gr_by_weekd2, aes(weekday, count / 1000, fill = type)) +
 
 Neste esquema é apresentado, tanto para os casuais como para os registados, o número de alugueres que cada um teve ao longo dos dias da semana.
 
-É possível verificar que existem muitos mais alugueres registados do que casuais em todos os dias da semana, e que, para ambos os tipos de alugueres, os valores nos dias de segunda a sexta permanecem relativamente constantes. No entanto, durante os dias de fim de semana, existem dois acontecimentos opostos: enquanto que o número de alugueres registados diminui cerca de 25% durante o fim de semana, os alugueres casuais duplicam durante esse mesmo período.
+É possível verificar que existem muitos mais alugueres registados do que casuais em todos os dias da semana, e que, para ambos os tipos de alugueres, os valores nos dias de segunda a sexta permanecem relativamente constantes. No entanto, durante os dias de fim de semana, existem dois acontecimentos opostos: enquanto que o número de alugueres registados diminui cerca de 25%, os alugueres casuais duplicam durante esse mesmo período.
 
 ```{r weather_vs_season, echo=FALSE}
 gr_by_sit <- select(bikeSharing, season, weathersit, casual, registered,seasonday) %>% group_by(season)
@@ -232,9 +232,9 @@ ggplot(gr_by_sit2, aes(x = seasonday, y = cont, fill = tipo)) +
   labs(fill = "Tipo:", x = "Dia da estação", y = "Nº de alugueres")
 ```
 
-Neste gráfico está representada a distribuição dos alugueres casuais e registados pelas diferentes estações do ano e pelos diferentes climas.
+Neste esquema está representada a distribuição dos alugueres casuais e registados pelas diferentes estações do ano e pelos diferentes climas.
 
-Como se pode ver neste conjunto de gráficos, a importância do clima é preponderante. Apesar de ser claro que existem diferenças no número de alugueres entre as 4 estações, os alugueres são feitos mais de acordo com o tipo de clima do que com a estação do ano em que se encontra. No caso do clima ser de chuva ou neve, o número de alugueres, tanto casuais como registados, é muito baixo, em todas as estações. Nos outros dois tipos de clima, limpo e nevoeiro, apesar de terem valores diferentes entre si, apresentam um número de alugueres relativamente igual durante todas as estações.
+Como se pode ver pelo conjunto de gráficos, a importância do clima é preponderante. Apesar de ser claro que existem diferenças no número de alugueres entre as 4 estações, os alugueres são feitos mais de acordo com o tipo de clima do que com a estação do ano em que se encontra. No caso do clima ser de chuva ou neve, o número de alugueres, tanto casuais como registados, é muito baixo, em todas as estações. Nos outros dois tipos de clima, limpo e nevoeiro, apesar de terem valores diferentes entre si, apresentam um número de alugueres relativamente igual durante todas as estações.
 
 <!-- É também de salientar que em casos de chuva forte praticamente não existem alugueres de utilizadores casuais. -->
 
