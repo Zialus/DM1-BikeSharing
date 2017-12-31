@@ -269,3 +269,64 @@ Estes valores vão de acordo com os que foram observados no gráfico anterior. N
 ## Definição de Modelo de previsão
 
 
+Foi definida uma tarefa de previsão com o intuito de determinar o número de alugueres de bicicletas num determinado dia. Esta tarefa consiste portanto num exercício de regressão.
+
+Os dados importados foram ajustados para posterior análise de modelação.
+
+Este processamento inclui eliminação de atributos não relevantes para a análise, bem como a substituição de algumas das variáveis "tratadas" 
+pelos seus valores originais, tendo em conta que alguns algoritmos não processam variáveis em factores.
+
+Os dados foram divididos num conjunto de treino (70%) e num conjunto de teste (30%).
+
+O objectivo desta tarefa passa por determinar o algoritmo que melhor modela o exercício de previsão. Para tal, são definidos como métrica de performance, os erros médios absolutos de cada modelo. No total, oito modelos são seleccionados para processar os dados, utilizando uma função de treino com método de *5 fold repeated cross validation* aplicada a cada um.
+Os modelos seleccionados são os seguintes: *random forest*, *support vector machine*, *gradient boosting*, *neural network*, *glm*, *knn*, *cart*, *mars*.
+
+
+Cada modelo treina no conjunto de dados de treino, tendo conhecimento da variável objetivo, **cnt**. Na parte de previsão, 
+nenhum modelo tem conhecimento do resultado real e é portanto neste sector que irá ser avaliada a performance de cada um, fazendo a comparação do 
+resultado de previsão com o valor real.
+Após selecção e teste de cada modelo, procede-se à criação de uma tabela com os resultados de *MAE* para cada um.
+
+Os resultados apontam o modelo de *SVM* como superior, não ficando a grande distância do modelo *Random Forest*, podendo-se concluir que ambos os modelos se adequam a este exercício de previsão de dados. Já os modelos com performance mais reduzida, apontam um erro maior que o dobro dos anteriores, sendo estes o modelo *KNN* e o *NNet*.
+
+Como forma de optimização destes modelos, podem ser utilizadas ferramentas de 'tuning' e outros métodos de redução de variância como o *bagging*. 
+A criação de *ensembles* de modelos pouco correlacionados também se apresenta como uma solução viável à redução do erro médio absoluto.
+
+```{r predmodel, eval=FALSE}
+library(caret)
+library(e1071)
+source("importationAndCleanup.R")
+
+#pre processamento para predictive task
+
+original.data <- read.csv("Dataset/day.csv", header = TRUE)
+
+bikePred <- bikeSharing[,-c(1,2,10,11,12,13,14,15,22)]
+
+bikePred$mnth<-original.data$mnth
+bikePred$weekday<-original.data$weekday
+bikePred$weathersit<-original.data$weathersit
+bikePred$workingday<-original.data$workingday
+bikePred$holiday<-original.data$holiday
+bikePred$season<-original.data$season
+
+sp <- createDataPartition(y = bikePred$cnt, p = 0.7, list = FALSE)
+training <- bikePred[sp,]
+testing <- bikePred[-sp,]
+
+outcomeName<-"cnt"
+
+
+predictors<-c('season','yr', 'mnth', 'holiday', 'weekday', 'workingday' ,'weathersit', 
+              'real_temp', 'real_atemp', 'real_hum' ,'real_windspeed', 'day')
+
+
+model_svmr<-svm(cnt ~ ., training, cost = 10, epsilon=0.02)
+predictions<-predict(model_svmr,testing)
+mae<-mean(abs(testing$cnt-predictions2)) 
+
+```
+
+
+
+
