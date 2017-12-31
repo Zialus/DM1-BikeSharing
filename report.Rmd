@@ -23,7 +23,7 @@ O data set disponibilizado para a realização deste trabalho contém informaç�
 
 ## Importação/Pré-processamentos dos dados
 
-Primeiramente, foi utilizada a função **read.csv** de forma a importar o *data set*, com o argumento **header** para indicar que o ficheiro contém os nomes das variáveis na sua primeira linha. Não foi utilizado o argumento **na.strings**, pois após uma verificação inicial dos dados, concluiu-se que não existiam nenhuns valores desconhecidos.
+Primeiramente, foi utilizada a função **read.csv** de forma a importar o *data set*, com o argumento **header** para indicar que o ficheiro contém os nomes das variáveis na sua primeira linha. Não foi utilizado o argumento **na.strings**, pois após uma verificação inicial dos dados, concluiu-se que não existiam valores desconhecidos.
 
 ```{r import, eval=FALSE}
 bikeSharing <- read.csv("Dataset/day.csv", header = TRUE)
@@ -176,10 +176,10 @@ gr_by_month %>% ggplot() + geom_bar(aes(x = mnth, y = total_cnt * 35 / 220000, f
 
 No primeiro gráfico está representado, para cada mês de 2011 e 2012, o número de alugueres de bicicletas totais. Também é mostrado a temperatura média de cada mês.
 
-Deste gráfico é possível retirar várias conclusões distintas. Primeiro, o número total de alugueres cresceu consideravelmente de 2011 para 2012. Todos os mêses de 2012 têm um número de alugueres superior ao mês correspondente em 2011, sendo até que mêses como Janeiro, Fevereiro e Março, no mínimo duplicaram o número de bicicletas alugadas de um ano para o outro. 
+Deste gráfico é possível retirar várias conclusões distintas. Primeiro, o número total de alugueres cresceu consideravelmente de 2011 para 2012. Todos os meses de 2012 têm um número de alugueres superior ao mês correspondente em 2011, sendo até que meses como Janeiro, Fevereiro e Março, no mínimo duplicaram o número de bicicletas alugadas de um ano para o outro.
 
-Quanto à temperatura média de cada mês, esta, como seria de esperar, aumenta ao longo dos primeiros mêses do ano, tendo o seu pico em Julho, a partir do qual começa a diminuir. Os valores médios de cada mês são quase idênticos nos 2 anos, com a excepção apenas a Janeiro e Março. 
-Também é possível observar que o número de alugueres totais ao longo de um ano segue um padrão semelhante ao da temperatura média, ou seja, o número de algueres de um mês é, de certa forma, influenciado pela temperatura média do mesmo mês. No entanto, é importante realçar que o crescimento ao longo dos mêses é muito mais pronunciado em 2011 do que em 2012. Por exemplo, em 2011, os valores de Junho foram 4 vezes maiores do que os de Janeiro, enquanto que em 2012, o número de alugures aumentou apenas o dobro entre os mesmos mêses.
+Quanto à temperatura média de cada mês, esta, como seria de esperar, aumenta ao longo dos primeiros meses do ano, tendo o seu pico em Julho, a partir do qual começa a diminuir. Os valores médios de cada mês são quase idênticos nos 2 anos, com a excepção apenas a Janeiro e Março.
+Também é possível observar que o número de alugueres totais ao longo de um ano segue um padrão semelhante ao da temperatura média, ou seja, o número de alugueres de um mês é, de certa forma, influenciado pela temperatura média do mesmo mês. No entanto, é importante realçar que o crescimento ao longo dos meses é muito mais pronunciado em 2011 do que em 2012. Por exemplo, em 2011, os valores de Junho foram 4 vezes maiores do que os de Janeiro, enquanto que em 2012, o número de alugueres aumentou apenas o dobro entre os mesmos meses.
 
 
 ```{r casual_vs_registered, echo=FALSE}
@@ -195,11 +195,11 @@ gr_by_tudo2 %>% ggplot(aes(mnth, count / 1000, fill = type)) +
   ggtitle("Número de alugueres casuais/registados ao longo dos meses")
 ```
 
-Neste segundo gráfico está representado o número de alugueres casuais e alugueres registados, sendo que em cada mês é somado os valores dos dois anos. 
+Neste segundo gráfico está representado o número de alugueres casuais e alugueres registados, sendo que em cada mês é somado os valores dos dois anos.
 
-Pode-se observar que, para todos os mêses, o número de alugueres registados é bastante superior aos casuais, sendo que no total dos dois anos, o mês com mais registados foi Agosto, enquanto que Julho foi o mês com mais casuais. Tal como no gráfico anterior, os mêses entre Maio e Outubro são os que apresentam um maior número de alugueres. 
+Pode-se observar que, para todos os meses, o número de alugueres registados é bastante superior aos casuais, sendo que no total dos dois anos, o mês com mais registados foi Agosto, enquanto que Julho foi o mês com mais casuais. Tal como no gráfico anterior, os meses entre Maio e Outubro são os que apresentam um maior número de alugueres.
 
-Mas novamente, é relevante referir que o crescimento ao longo do ano é maior nos alugueres casuais do que nos registados. Ou seja, apesar do número de alugueres registados ser bastante superior em todos os meses, a variação do número dealugueres entre os mêses é mais significativa nos casuais.
+Mas novamente, é relevante referir que o crescimento ao longo do ano é maior nos alugueres casuais do que nos registados. Ou seja, apesar do número de alugueres registados ser bastante superior em todos os meses, a variação do número de alugueres entre os meses é mais significativa nos casuais.
 
 
 ```{r cas_reg_week, echo=FALSE}
