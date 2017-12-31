@@ -4,9 +4,9 @@ title: Relatório do trabalho 1 de Data Mining 1 - Análise dos alugueres de bic
 author: "Miguel Barbosa, Raul Ferreira, Tiago Martins"
 date: "31 de Dezembro de 2017"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
 ---
 
 
@@ -221,6 +221,19 @@ ggplot(gr_by_weekd2, aes(weekday, count / 1000, fill = type)) +
 Neste esquema é apresentado, tanto para os casuais como para os registados, o número de alugueres que cada um teve ao longo dos dias da semana.
 
 É possível verificar que, apesar de haver muitos mais alugueres registados em todos os dias da semana, em ambos os tipos de alugueres, os valores nos dias de segunda a sexta permanecem relativamente constantes. No entanto, durante os dias de fim de semana, existem dois acontecimentos opostos. Enquanto que o número de alugueres registados diminui cerca de 25% durante o fim de semana, os alugueres casuais duplicam durante esse mesmo período.
+
+```{r weather_vs_season, echo=FALSE}
+gr_by_sit <- select(bikeSharing, season, weathersit, casual, registered,seasonday) %>% group_by(season)
+gr_by_sit2 <- gather(gr_by_sit, tipo, cont, casual:registered)
+
+ggplot(gr_by_sit2, aes(x = seasonday, y = cont, fill = tipo)) +
+  geom_bar(stat = "identity") + facet_grid(weathersit ~ season) +
+  ggtitle('Distribution of casual/registered as a function of weather situation and Season')
+
+```
+
+Como se pode ver neste conjunto de gráficos, a importância do clima é preponderante. Nota-se que para ambos os tipos, os alugueres são feitos mais de acordo com o clima do que com as estações. É também de salientar que em casos de chuva forte praticamente não existem alugueres de utilizadores casuais.
+
 
 ## Definição de Modelo de previsão
 
