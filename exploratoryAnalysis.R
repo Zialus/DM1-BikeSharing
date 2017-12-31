@@ -58,18 +58,20 @@ gp12
 #casuals/regist por dia da semana
 gr_by_weekd <-
   select(bikeSharing, weekday, casual, registered) %>% group_by(weekday) %>%
-  summarise(casuals = sum(casual),
-            registered = sum(registered))
+  summarise(Casuals = sum(casual),
+            Registered = sum(registered))
 
 #converter casual/registered em colunas tipo/contagem
-gr_by_weekd2 <- gather(gr_by_weekd, type, count, casuals:registered)
+gr_by_weekd2 <- gather(gr_by_weekd, type, count, Casuals:Registered)
 
 
 #gráfico weekday vs tipo/contagem
 #casuals alugam mais ao fim de semana, registered alugam mais durante a semana útil (talvez ate como meio de transporte para o trabalho)
-gp3 <- ggplot(gr_by_weekd2, aes(weekday, count, fill = type)) +
+gp3 <- ggplot(gr_by_weekd2, aes(weekday, count / 1000, fill = type)) +
   geom_bar(stat = "identity", position = "dodge") +
-  scale_y_continuous(labels = comma)
+  scale_y_continuous(labels = comma) + 
+  labs(fill = "Tipo:", x = "Dia da semana", y = "Nº de alugueres (x1000)") +
+  ggtitle("Número de alugueres casuais/registados em cada dia da semana")
 
 gp3
 
