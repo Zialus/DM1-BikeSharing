@@ -320,10 +320,18 @@ outcomeName<-"cnt"
 predictors<-c('season','yr', 'mnth', 'holiday', 'weekday', 'workingday' ,'weathersit', 
               'real_temp', 'real_atemp', 'real_hum' ,'real_windspeed', 'day')
 
+#random forest
+grid <- expand.grid(mtry=c(5)) #5
+model_rf<-train(training[,predictors],training[,outcomeName],method='rf',trControl=fitControl,tuneGrid=grid,importance=T)
+varImp(object=model_rf)
+plot(varImp(object=model_rf))
+predictions1 <-predict.train(object=model_rf,testing[,predictors])
+mae1 <- mean(abs(testing$cnt-predictions1))
 
+#smv
 model_svmr<-svm(cnt ~ ., training, cost = 10, epsilon=0.02)
-predictions<-predict(model_svmr,testing)
-mae<-mean(abs(testing$cnt-predictions2)) 
+predictions2<-predict(model_svmr,testing)
+mae2<-mean(abs(testing$cnt-predictions2)) 
 
 ```
 
