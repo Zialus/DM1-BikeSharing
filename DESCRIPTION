@@ -15,5 +15,7 @@ Imports:
     grid,
     tidyr,
     scales,
-    knitr
+    knitr,
+    caret,
+    e1071
 Suggests:
