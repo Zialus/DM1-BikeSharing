@@ -49,13 +49,22 @@ Na descrição dos dados do *data set*, era mencionado que na coluna **season**,
 ```{r test2, eval=FALSE}
 change_season <- function(x) {
   sapply(x, function(x) {
-    switch(as.character(x), "1" = "Winter", "2" = "Spring", "3" = "Summer", "4" = "Fall")
+    switch(
+      as.character(x),
+      "1" = "Winter",
+      "2" = "Spring",
+      "3" = "Summer",
+      "4" = "Fall"
+    )
   })
 }
-
 bikeSharing$season <- change_season(bikeSharing$season)
-bikeSharing$season <- factor(bikeSharing$season, 
-                             levels = c("Spring", "Summer", "Fall", "Winter"), ordered = TRUE)
+bikeSharing$season <-
+  factor(
+    bikeSharing$season,
+    levels = c("Winter", "Spring", "Summer", "Fall"),
+    ordered = TRUE
+  )
 ```
 
 Foi realizada uma modificação na coluna **yr**, passando os valores 0 e 1 para 2011 e 2012, respetivamente.
@@ -76,13 +85,22 @@ Da mesma forma, a coluna **weathersit** também foi modificada. Os valores 1, 2,
 ```{r test4, eval=FALSE}
 change_weathersit <- function(x) {
   sapply(x, function(x) {
-    switch(as.character(x), "1" = "Clear", "2" = "Mist", "3" = "Light rain/snow", "4" = "Heavy rain/snow")
+    switch(
+      as.character(x),
+      "1" = "Clear",
+      "2" = "Mist",
+      "3" = "Light rain/snow",
+      "4" = "Heavy rain/snow"
+    )
   })
 }
-
 bikeSharing$weathersit <- change_weathersit(bikeSharing$weathersit)
-bikeSharing$weathersit <- factor(bikeSharing$weathersit, 
-                                 levels = c("Clear", "Mist", "Light rain/snow", "Heavy rain/snow"), ordered = TRUE)
+bikeSharing$weathersit <-
+  factor(
+    bikeSharing$weathersit,
+    levels = c("Clear", "Mist", "Light rain/snow", "Heavy rain/snow"),
+    ordered = TRUE
+  )
 ```
 
 A variável **mnth** foi alterada, para apresentar o nome do mês em vez de um inteiro de 1 a 12. A coluna **weekday** passou a ser representada pelo o nome do dia da semana, e não por um inteiro de 0 a 6. As variáveis **holiday** e **workingday** passaram a ter valores *booleanos* em vez do valor 0 ou 1.
