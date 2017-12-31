@@ -237,7 +237,7 @@ gr_by_workd$mean_reg <- gr_by_workd$registered / gr_by_workd$n
 # gather columns by type/cont
 gr_by_workd2 <- gather(gr_by_workd, type, cont, mean_casual:mean_reg)
 
-#plot workingday by casual/registerd count
+# plot workingday by casual/registerd count
 ggplot(gr_by_workd2, aes(type, cont, fill = workingday)) +
   geom_bar(stat = "identity", position = "dodge") +
   labs(fill = "Dia de trabalho:", x = "Tipo de aluguer", y = "Média de alugueres ") +
@@ -294,7 +294,7 @@ A criação de *ensembles* de modelos pouco correlacionados também se apresenta
 library(caret)
 library(e1071)
 
-#pre processamento para predictive task
+# pre processing for predictive task
 
 original.data <- read.csv("Dataset/day.csv", header = TRUE)
 
@@ -324,8 +324,6 @@ predictors<-c('season','yr', 'mnth', 'holiday', 'weekday', 'workingday' ,'weathe
 #random forest
 grid <- expand.grid(mtry=c(5)) #5
 model_rf<-train(training[,predictors],training[,outcomeName],method='rf',trControl=fitControl,tuneGrid=grid,importance=T)
-varImp(object=model_rf)
-plot(varImp(object=model_rf))
 predictions1 <-predict.train(object=model_rf,testing[,predictors])
 mae1 <- mean(abs(testing$cnt-predictions1))
 
