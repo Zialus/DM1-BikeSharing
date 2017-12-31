@@ -220,7 +220,7 @@ ggplot(gr_by_weekd2, aes(weekday, count / 1000, fill = type)) +
 
 Neste esquema é apresentado, tanto para os casuais como para os registados, o número de alugueres que cada um teve ao longo dos dias da semana.
 
-É possível verificar que, apesar de haver muitos mais alugueres registados em todos os dias da semana, em ambos os tipos de alugueres, os valores nos dias de segunda a sexta permanecem relativamente constantes. No entanto, durante os dias de fim de semana, existem dois acontecimentos opostos. Enquanto que o número de alugueres registados diminui cerca de 25% durante o fim de semana, os alugueres casuais aumentam para cerca de o dobro durante esse mesmo período.  
+É possível verificar que, apesar de haver muitos mais alugueres registados em todos os dias da semana, em ambos os tipos de alugueres, os valores nos dias de segunda a sexta permanecem relativamente constantes. No entanto, durante os dias de fim de semana, existem dois acontecimentos opostos. Enquanto que o número de alugueres registados diminui cerca de 25% durante o fim de semana, os alugueres casuais duplicam durante esse mesmo período.
 
 ## Definição de Modelo de previsão
 
