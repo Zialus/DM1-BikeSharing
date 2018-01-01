@@ -3,6 +3,11 @@ cache: packages
 
 script: Rscript -e "rmarkdown::render('report.Rmd')"
 
+addons:
+  apt:
+    packages:
+      - ghostscript
+
 deploy:
   provider: releases
   api_key:
