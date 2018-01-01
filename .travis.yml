@@ -3,6 +3,10 @@ cache: packages
 
 script: Rscript -e "rmarkdown::render('report.Rmd')"
 
+os:
+  - linux
+  - osx
+
 addons:
   apt:
     packages:
