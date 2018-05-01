@@ -1,6 +1,5 @@
 ---
-title: Relatório do trabalho 1 de Data Mining 1 - Análise dos alugueres de bicicletas
-  da Capital Bikeshare
+title: "Relatório do trabalho 1 de Data Mining 1 - Análise dos alugueres de bicicletas da Capital Bikeshare"
 author: "Miguel Barbosa, Raul Ferreira, Tiago Martins"
 date: "31 de Dezembro de 2017"
 output:
@@ -291,6 +290,7 @@ Como forma de optimização destes modelos, podem ser utilizadas ferramentas de 
 A criação de *ensembles* de modelos pouco correlacionados também se apresenta como uma solução viável à redução do erro médio absoluto.
 
 ```{r predmodel}
+library(ggplot2)
 library(caret)
 library(e1071)
 

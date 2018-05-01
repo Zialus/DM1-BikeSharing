@@ -1,10 +1,22 @@
 source("importationAndCleanup.R")
 
+library(performanceEstimation)
 library(DMwR)
+library(randomForest)
+library(e1071)
+library(caret)
+library(gbm)
 
-set.seed(1234)
-trPerc <- 0.7
-sp <- sample(1:nrow(bikeSharing), as.integer(trPerc*nrow(bikeSharing)))
-tr <- bikeSharing[sp,]
-ts <- bikeSharing[-sp,]
 
+res <- performanceEstimation(
+  PredTask(cnt ~ ., bikeSharing),
+  workflowVariants("standardWF", learner = c("rpartXse", "svm")),
+  EstimationTask(
+    metrics = c("rmse", "mae"),
+    method = CV(nReps = 1, nFolds = 10)
+  )
+)
+
+summary(res)
+
+plot(res)
