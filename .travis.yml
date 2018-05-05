@@ -4,14 +4,17 @@ pandoc_version: 1.19.2.1
 
 script: Rscript -e "rmarkdown::render('report.Rmd')"
 
-os:
-  - linux
-  - osx
-
 addons:
   apt:
     packages:
       - ghostscript
+
+matrix:
+  include:
+  - os: linux
+  - os: osx
+    before_install:
+      - sudo tlmgr install framed titling
 
 deploy:
   provider: releases
