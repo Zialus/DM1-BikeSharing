@@ -17,5 +17,7 @@ Imports:
     scales,
     knitr,
     caret,
-    e1071
+    e1071,
+    randomForest,
+    performanceEstimation
 Suggests:
