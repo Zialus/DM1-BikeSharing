@@ -45,7 +45,7 @@ subset(bikeSharing, year(dteday) != 2011 & year(dteday) != 2012)
 
 Na descrição dos dados do *data set*, era mencionado que na coluna **season**, o valor 1 representava a estação *spring*, o 2 a estação *summer*, o 3 representava a estação *fall*, e finalmente, o valor 4 o *winter*. No entanto averiguou-se que esses valores estavam errados. O valor 1 representa, na realidade, a estação *winter*, o 2 a estação *spring*, *etc*. Procedeu-se assim, à correção da coluna **season**.
 
-```{r test2, eval=FALSE}
+```{r test2, eval=FALSE, tidy=TRUE}
 change_season <- function(x) {
   sapply(x, function(x) {
     switch(as.character(x), "1" = "Winter", "2" = "Spring", "3" = "Summer", "4" = "Fall")
@@ -59,7 +59,7 @@ bikeSharing$season <- factor(bikeSharing$season,
 
 Foi realizada uma modificação na coluna **yr**, passando os valores 0 e 1 para 2011 e 2012, respetivamente.
 
-```{r test3, eval=FALSE}
+```{r test3, eval=FALSE, tidy=TRUE}
 change_year <- function(x) {
   sapply(x, function(x) {
     switch(as.character(x), "0" = "2011", "1" = "2012")
@@ -72,7 +72,7 @@ bikeSharing$yr <- factor(bikeSharing$yr, levels = c(2011, 2012), ordered = TRUE)
 
 Da mesma forma, a coluna **weathersit** também foi modificada. Os valores 1, 2, 3 e 4 deram lugar a *Clear*, *Mist*, *Light rain/snow* e *Heavy rain/snow*, respetivamente.
 
-```{r test4, eval=FALSE}
+```{r test4, eval=FALSE, tidy=TRUE}
 change_weathersit <- function(x) {
   sapply(x, function(x) {
     switch(as.character(x), "1" = "Clear", "2" = "Mist", "3" = "Light rain/snow", "4" = "Heavy rain/snow")
@@ -113,7 +113,7 @@ bikeSharing <- mutate(bikeSharing, day = yday(bikeSharing$dteday))
 
 Por fim, foi gerada outra nova coluna, **seasonday**, a qual contém o número do dia da observação, em relação à estação do ano em que se encontra. 
  
-```{r test_day_w_season, eval=FALSE} 
+```{r test_day_w_season, eval=FALSE, tidy=TRUE} 
 add_day_w_season <- function(days, seasons) {
   mapply(function(x, y) {
     current_day <- x
@@ -289,14 +289,16 @@ Os resultados apontam o modelo de *SVM* como superior, não ficando a grande dis
 Como forma de optimização destes modelos, podem ser utilizadas ferramentas de 'tuning' e outros métodos de redução de variância como o *bagging*. 
 A criação de *ensembles* de modelos pouco correlacionados também se apresenta como uma solução viável à redução do erro médio absoluto.
 
-```{r predmodel}
+```{r setup3, include=FALSE}
 library(ggplot2)
 library(caret)
 library(e1071)
 library(randomForest)
+```
+
+```{r predmodel, tidy=TRUE}
 
 # pre processing for predictive task
-
 original.data <- read.csv("Dataset/day.csv", header = TRUE)
 
 bikePred <- bikeSharing[,-c(1,2,10,11,12,13,14,15,22)]

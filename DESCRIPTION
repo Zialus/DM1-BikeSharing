@@ -20,5 +20,6 @@ Imports:
     e1071,
     randomForest,
     performanceEstimation,
-    tinytex
+    tinytex,
+    formatR
 Suggests:
